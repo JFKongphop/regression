@@ -84,13 +84,13 @@ class LinearRegression {
 
   getMSE(): number {
     const sse = this.getSSE();
-    const mse: number = sse / (this.arraySize- 2);
+    const mse: number = sse / (this.arraySize - 2);
 
     return mse;
   }
 }
 
 
-const x: number[] = [9, 7, 7, 0]
-const y: number[] = [33.7, 28.7, 29.4, 18]
-const linearRegression = new LinearRegression(x, y)
+// const x: number[] = [9, 7, 7, 0]
+// const y: number[] = [33.7, 28.7, 29.4, 18]
+// const linearRegression = new LinearRegression(x, y)
