@@ -20,3 +20,5 @@ const x: number[][] = [
 ]
 const y: number[] = [-26.1, -31, -33.1, -25.8, -2.2]
 const multipleLinearRegression = new MultipleLinearRegression(x, y)
+
+
