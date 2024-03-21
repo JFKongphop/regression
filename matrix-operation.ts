@@ -18,7 +18,7 @@ class MatrixOperation {
       x.map((row: number[]) => row[colIndex])
     );
 
-    return transposedMatrix
+    return transposedMatrix;
   }
 
   multiplication(x: number[][], y: number[][]): number[][] {
@@ -31,7 +31,7 @@ class MatrixOperation {
       throw new Error("Matrices cannot be multiplied: incompatible dimensions");    
     }
 
-    const mutipliedMatrix: number[][] = []
+    const mutipliedMatrix: number[][] = [];
     for (let i = 0; i < x.length; i++) {
       const mutipliedRow: number[] = [];
       for (let j = 0; j < y[0].length; j++) {
@@ -55,6 +55,27 @@ class MatrixOperation {
 
   determinant(x: number[][]): number {
     let determinant: number = 0;
+    const xRow: number = x.length;
+    const xColumn: number = x[0].length;
+
+    if (xRow !== xColumn) {
+      throw new Error("Matrices cannot be find minor: incompatible dimensions");    
+    }
+
+    for (let i = 0; i < xRow; i++) {
+      const minorRow: number[][] = this.minorRow(x, 0, i);
+      console.log(minorRow)
+      const minorPos: number = 
+        (minorRow[0][0] * minorRow[1][1]) 
+        - (minorRow[1][0] * minorRow[0][1]);
+
+      if (i % 2 !== 0) {
+        determinant += x[0][i] * (-minorPos)
+      }
+      else {
+        determinant += x[0][i] * minorPos
+      }
+    }
 
     return determinant;
   }
@@ -81,10 +102,10 @@ class MatrixOperation {
         const minorSize: number = minorRow.length;
 
         if (minorSize === 2) {
-          const determinant: number = 
+          const minorPos: number = 
             (minorRow[0][0] * minorRow[1][1]) 
             - (minorRow[1][0] * minorRow[0][1]);
-          newRow.push(determinant);
+          newRow.push(minorPos);
         }
       }
       minor.push(newRow);
@@ -136,13 +157,24 @@ const b: number[][] = [
 const matrixOperation = new MatrixOperation();
 const transposedMatrix = matrixOperation.transpose(b)
 const multipliedMatrix = matrixOperation.multiplication(transposedMatrix, b)
-console.log(multipliedMatrix)
+// console.log(multipliedMatrix)
 
 const minor = matrixOperation.minor(multipliedMatrix)
-console.log(minor)
+//console.log(minor)
 
 const cofactor = matrixOperation.cofactor(minor)
 console.log(cofactor)
+
+const transCofactor = matrixOperation.transpose(cofactor)
+console.log(transCofactor)
+
+const u = [
+  [2, 3, 4],
+  [4, 3, 1],
+  [1, 2, 4]
+]
+
+console.log(matrixOperation.determinant(u))
 
 
 // let c: number[][] = []
