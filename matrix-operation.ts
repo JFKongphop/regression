@@ -81,7 +81,9 @@ class MatrixOperation {
   }
 
   adjoint(x: number[][]): number[][] {
-    let adjoint: number[][] = [];
+    const minor: number[][] = this.minor(x);
+    const cofactor: number[][] = this.cofactor(minor);
+    const adjoint: number[][] = this.transpose(cofactor);
 
     return adjoint;
   }
@@ -168,13 +170,16 @@ console.log(cofactor)
 const transCofactor = matrixOperation.transpose(cofactor)
 console.log(transCofactor)
 
+const adj = matrixOperation.adjoint(multipliedMatrix)
+console.log(adj)
+
 const u = [
   [2, 3, 4],
   [4, 3, 1],
   [1, 2, 4]
 ]
 
-console.log(matrixOperation.determinant(u))
+// console.log(matrixOperation.determinant(u))
 
 
 // let c: number[][] = []
