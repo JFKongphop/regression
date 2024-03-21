@@ -47,10 +47,15 @@ class MatrixOperation {
     return mutipliedMatrix;
   }
 
-  inverse(x: number[][]): number[][] {
-    const reversedMatrix: number[][] = [];
+  inverse(x: number[][], determinant: number): number[][] {
+    const inversedMatrix: number[][] = [];
+    const matrixSize = x.length;
+    for (let i = 0; i < matrixSize; i++) {
+      const inversedRow: number[] = x[i].map((number) => number / determinant);
+      inversedMatrix.push(inversedRow)
+    }
 
-    return reversedMatrix;
+    return inversedMatrix;
   }
 
   determinant(x: number[][]): number {
@@ -179,7 +184,13 @@ const u = [
   [1, 2, 4]
 ]
 
-// console.log(matrixOperation.determinant(u))
+const dt = matrixOperation.determinant(u)
+const ad = matrixOperation.adjoint(u);
+console.log(ad)
+const inv = matrixOperation.inverse(ad, dt);
+console.log(inv)
+
+console.log()
 
 
 // let c: number[][] = []
