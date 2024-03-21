@@ -1,10 +1,4 @@
 class MatrixOperation {
-  private x: number[][]
-
-  constructor(x: number[][]) {
-    this.x = x
-  }
-
   private minorRow(
     matrix: number[][], 
     row: number, 
@@ -19,9 +13,9 @@ class MatrixOperation {
     return minorRow;
   }
 
-  transpose(): number[][] {
-    const transposedMatrix = this.x[0].map((_, colIndex: number) =>
-      this.x.map((row: number[]) => row[colIndex])
+  transpose(x: number[][]): number[][] {
+    const transposedMatrix = x[0].map((_, colIndex: number) =>
+      x.map((row: number[]) => row[colIndex])
     );
 
     return transposedMatrix
@@ -139,8 +133,8 @@ const b: number[][] = [
   [1, 8, 0]
 ]
 
-const matrixOperation = new MatrixOperation(b);
-const transposedMatrix = matrixOperation.transpose()
+const matrixOperation = new MatrixOperation();
+const transposedMatrix = matrixOperation.transpose(b)
 const multipliedMatrix = matrixOperation.multiplication(transposedMatrix, b)
 console.log(multipliedMatrix)
 
@@ -149,6 +143,7 @@ console.log(minor)
 
 const cofactor = matrixOperation.cofactor(minor)
 console.log(cofactor)
+
 
 // let c: number[][] = []
 
