@@ -5,6 +5,20 @@ class MatrixOperation {
     this.x = x
   }
 
+  private minorRow(
+    matrix: number[][], 
+    row: number, 
+    col: number
+  ): number[][] {
+    const minorRow: number[][] = matrix
+      .filter((_, rowIndex: number) => rowIndex !== row)
+      .map((row: number[]) => row
+        .filter((_, colIndex: number) => colIndex !== col)
+      );
+    
+    return minorRow;
+  }
+
   transpose(): number[][] {
     const transposedMatrix = this.x[0].map((_, colIndex: number) =>
       this.x.map((row: number[]) => row[colIndex])
@@ -20,12 +34,12 @@ class MatrixOperation {
     const yColumn: number = y[0].length;
 
     if (xRow !== yColumn || xColumn !== yRow) {
-      throw new Error('matrix is conflic dimesion, cannot mutiply.');
+      throw new Error("Matrices cannot be multiplied: incompatible dimensions");    
     }
 
-    let mutipliedMatrix: number[][] = []
+    const mutipliedMatrix: number[][] = []
     for (let i = 0; i < x.length; i++) {
-      let mutipliedRow: number[] = [];
+      const mutipliedRow: number[] = [];
       for (let j = 0; j < y[0].length; j++) {
         let multipliedRowValue: number = 0;
         for (let k = 0; k < x[0].length; k++) {
@@ -36,8 +50,85 @@ class MatrixOperation {
       mutipliedMatrix.push(mutipliedRow);
     }
 
-    return mutipliedMatrix
+    return mutipliedMatrix;
   }
+
+  inverse(x: number[][]): number[][] {
+    const reversedMatrix: number[][] = [];
+
+    return reversedMatrix;
+  }
+
+  determinant(x: number[][]): number {
+    let determinant: number = 0;
+
+    return determinant;
+  }
+
+  adjoint(x: number[][]): number[][] {
+    let adjoint: number[][] = [];
+
+    return adjoint;
+  }
+
+  minor(x: number[][]): number[][] {
+    const minor: number[][] = [];
+    const xRow: number = x.length;
+    const xColumn: number = x[0].length;
+
+    if (xRow !== xColumn) {
+      throw new Error("Matrices cannot be find minor: incompatible dimensions");    
+    }
+
+    for (let i = 0; i < xRow; i++) {
+      const newRow: number[] = []
+      for (let j = 0; j < xRow; j++) {
+        const minorRow: number[][] = this.minorRow(x, i, j);
+        const minorSize: number = minorRow.length;
+
+        if (minorSize === 2) {
+          const determinant: number = 
+            (minorRow[0][0] * minorRow[1][1]) 
+            - (minorRow[1][0] * minorRow[0][1]);
+          newRow.push(determinant);
+        }
+      }
+      minor.push(newRow);
+    }
+
+    return minor;
+  }
+
+  cofactor(x: number[][]): number[][] {
+    const cofactor: number[][] = [];
+    const matrixSize: number = x.length;
+
+    for (let i = 0; i < matrixSize; i++) {
+      const cofactorRow: number[] = [];
+      for (let j = 0; j < matrixSize; j++) {
+        if (i % 2 == 0) {
+          if (j % 2 == 0) {
+            cofactorRow.push(x[i][j]);
+          }
+          else {
+            cofactorRow.push(-x[i][j]);
+          }
+        }
+        else {
+          if (j % 2 == 0) {
+            cofactorRow.push(-x[i][j]);
+          }
+          else {
+            cofactorRow.push(x[i][j]);
+          }
+        }
+      }
+      cofactor.push(cofactorRow);
+    }
+
+    return cofactor;
+  }
+
 }
 
 const b: number[][] = [
@@ -53,6 +144,12 @@ const transposedMatrix = matrixOperation.transpose()
 const multipliedMatrix = matrixOperation.multiplication(transposedMatrix, b)
 console.log(multipliedMatrix)
 
+const minor = matrixOperation.minor(multipliedMatrix)
+console.log(minor)
+
+const cofactor = matrixOperation.cofactor(minor)
+console.log(cofactor)
+
 // let c: number[][] = []
 
 // const bs = b.length // row
@@ -65,5 +162,39 @@ console.log(multipliedMatrix)
 
 //   c.push(a)
 // }
-
 // console.log(c)
+
+// function getMinorMatrix(matrix: number[][], rowToRemove: number, colToRemove: number): number[][] {
+//   return matrix.filter((_, rowIndex) => rowIndex !== rowToRemove)
+//                .map(row => row.filter((_, colIndex) => colIndex !== colToRemove));
+// }
+
+// // Example matrix
+// const matrix = [
+//   [1, 2, 3],
+//   [4, 5, 6],
+//   [7, 8, 9]
+// ];
+
+// // Get the minor matrix excluding the first row and second column
+// const minorMatrix = getMinorMatrix(matrix, 0, 0);
+
+// // Output the result
+// console.log(minorMatrix);
+
+// function determinant(matrix: number[][]) {
+//   if (matrix.length === 2 && matrix[0].length === 2) {
+//       return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+//   } else {
+//     let det = 0;
+//     for (let i = 0; i < matrix.length; i++) {        
+//       det += 
+//         matrix[0][i] 
+//         * determinant(getMinorMatrix(matrix, 0, i)) 
+//         * (i % 2 === 0 ? 1 : -1);
+//     }
+//       return det;
+//   }
+// }
+
+// console.log(determinant(matrix))
