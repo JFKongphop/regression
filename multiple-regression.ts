@@ -11,14 +11,14 @@ class MultipleLinearRegression {
 }
 
 
-const x: number[][] = [
-  [1, 8, 5], 
-  [1, 8, 6], 
-  [1, 2, 4], 
-  [1, 5, 4], 
-  [1, 8, 0]
-]
-const y: number[] = [-26.1, -31, -33.1, -25.8, -2.2]
-const multipleLinearRegression = new MultipleLinearRegression(x, y)
+// const x: number[][] = [
+//   [1, 8, 5], 
+//   [1, 8, 6], 
+//   [1, 2, 4], 
+//   [1, 5, 4], 
+//   [1, 8, 0]
+// ]
+// const y: number[] = [-26.1, -31, -33.1, -25.8, -2.2]
+// const multipleLinearRegression = new MultipleLinearRegression(x, y)
 
 
