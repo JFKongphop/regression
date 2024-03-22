@@ -1,4 +1,4 @@
-class MatrixOperation {
+export class MatrixOperation {
   private minorRow(
     matrix: number[][], 
     row: number, 
@@ -13,7 +13,7 @@ class MatrixOperation {
     return minorRow;
   }
 
-  transpose(x: number[][]): number[][] {
+  protected transpose(x: number[][]): number[][] {
     const transposedMatrix = x[0].map((_, colIndex: number) =>
       x.map((row: number[]) => row[colIndex])
     );
@@ -21,7 +21,7 @@ class MatrixOperation {
     return transposedMatrix;
   }
 
-  multiplication(x: number[][], y: number[][]): number[][] {
+  protected multiplication(x: number[][], y: number[][]): number[][] {
     const xRow: number = x.length;
     const xColumn: number = x[0].length;
     const yRow: number = y.length;
@@ -47,7 +47,7 @@ class MatrixOperation {
     return mutipliedMatrix;
   }
 
-  inverse(x: number[][]): number[][] {
+  protected inverse(x: number[][]): number[][] {
     const adjoint: number[][] = this.adjoint(x);
     const determinant: number = this.determinant(x)
     const inversedMatrix: number[][] = [];
@@ -60,7 +60,7 @@ class MatrixOperation {
     return inversedMatrix;
   }
 
-  determinant(x: number[][]): number {
+  protected determinant(x: number[][]): number {
     let determinant: number = 0;
     const xRow: number = x.length;
     const xColumn: number = x[0].length;
@@ -86,7 +86,7 @@ class MatrixOperation {
     return determinant;
   }
 
-  adjoint(x: number[][]): number[][] {
+  protected adjoint(x: number[][]): number[][] {
     const minor: number[][] = this.minor(x);
     const cofactor: number[][] = this.cofactor(minor);
     const adjoint: number[][] = this.transpose(cofactor);
@@ -94,7 +94,7 @@ class MatrixOperation {
     return adjoint;
   }
 
-  minor(x: number[][]): number[][] {
+  protected minor(x: number[][]): number[][] {
     const minor: number[][] = [];
     const xRow: number = x.length;
     const xColumn: number = x[0].length;
@@ -122,7 +122,7 @@ class MatrixOperation {
     return minor;
   }
 
-  cofactor(x: number[][]): number[][] {
+  protected cofactor(x: number[][]): number[][] {
     const cofactor: number[][] = [];
     const matrixSize: number = x.length;
 
@@ -170,17 +170,17 @@ const y: number[][] = [
   [-2.2]
 ]
 
-const matrixOperation = new MatrixOperation();
-const transposedMatrix = matrixOperation.transpose(x)
-const multiX = matrixOperation.multiplication(transposedMatrix, x)
-// console.log(multipliedMatrix)
-// const det = matrixOperation.determinant(multipliedMatrix)
-const inv = matrixOperation.inverse(multiX)
-const multiY = matrixOperation.multiplication(transposedMatrix, y)
-console.log(inv)
+// const matrixOperation = new MatrixOperation();
+// const transposedMatrix = matrixOperation.transpose(x)
+// const multiX = matrixOperation.multiplication(transposedMatrix, x)
+// // console.log(multipliedMatrix)
+// // const det = matrixOperation.determinant(multipliedMatrix)
+// const inv = matrixOperation.inverse(multiX)
+// const multiY = matrixOperation.multiplication(transposedMatrix, y)
+// console.log(inv)
 
-const beta = matrixOperation.multiplication(inv, multiY)
-console.log(beta)
+// const beta = matrixOperation.multiplication(inv, multiY)
+// console.log(beta)
 
 // console.log(multipliedMatrix)
 
