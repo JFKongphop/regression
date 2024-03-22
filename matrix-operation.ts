@@ -27,16 +27,16 @@ class MatrixOperation {
     const yRow: number = y.length;
     const yColumn: number = y[0].length;
 
-    if (xRow !== yColumn || xColumn !== yRow) {
+    if (xColumn !== yRow) {
       throw new Error("Matrices cannot be multiplied: incompatible dimensions");    
     }
 
     const mutipliedMatrix: number[][] = [];
-    for (let i = 0; i < x.length; i++) {
+    for (let i = 0; i < xRow; i++) {
       const mutipliedRow: number[] = [];
-      for (let j = 0; j < y[0].length; j++) {
+      for (let j = 0; j < yColumn; j++) {
         let multipliedRowValue: number = 0;
-        for (let k = 0; k < x[0].length; k++) {
+        for (let k = 0; k < xColumn; k++) {
           multipliedRowValue += x[i][k] * y[k][j];
         }
         mutipliedRow.push(multipliedRowValue);
@@ -47,11 +47,13 @@ class MatrixOperation {
     return mutipliedMatrix;
   }
 
-  inverse(x: number[][], determinant: number): number[][] {
+  inverse(x: number[][]): number[][] {
+    const adjoint: number[][] = this.adjoint(x);
+    const determinant: number = this.determinant(x)
     const inversedMatrix: number[][] = [];
     const matrixSize = x.length;
     for (let i = 0; i < matrixSize; i++) {
-      const inversedRow: number[] = x[i].map((number) => number / determinant);
+      const inversedRow: number[] = adjoint[i].map((number) => number / determinant);
       inversedMatrix.push(inversedRow)
     }
 
@@ -69,7 +71,6 @@ class MatrixOperation {
 
     for (let i = 0; i < xRow; i++) {
       const minorRow: number[][] = this.minorRow(x, 0, i);
-      console.log(minorRow)
       const minorPos: number = 
         (minorRow[0][0] * minorRow[1][1]) 
         - (minorRow[1][0] * minorRow[0][1]);
@@ -153,7 +154,7 @@ class MatrixOperation {
 
 }
 
-const b: number[][] = [
+const x: number[][] = [
   [1, 8, 5], 
   [1, 8, 6], 
   [1, 2, 4], 
@@ -161,83 +162,51 @@ const b: number[][] = [
   [1, 8, 0]
 ]
 
+const y: number[][] = [
+  [-26.1], 
+  [-31], 
+  [-33.1], 
+  [-25.8], 
+  [-2.2]
+]
+
 const matrixOperation = new MatrixOperation();
-const transposedMatrix = matrixOperation.transpose(b)
-const multipliedMatrix = matrixOperation.multiplication(transposedMatrix, b)
+const transposedMatrix = matrixOperation.transpose(x)
+const multiX = matrixOperation.multiplication(transposedMatrix, x)
+// console.log(multipliedMatrix)
+// const det = matrixOperation.determinant(multipliedMatrix)
+const inv = matrixOperation.inverse(multiX)
+const multiY = matrixOperation.multiplication(transposedMatrix, y)
+console.log(inv)
+
+const beta = matrixOperation.multiplication(inv, multiY)
+console.log(beta)
+
 // console.log(multipliedMatrix)
 
-const minor = matrixOperation.minor(multipliedMatrix)
-//console.log(minor)
+// console.log(det)
 
-const cofactor = matrixOperation.cofactor(minor)
-console.log(cofactor)
+// const minor = matrixOperation.minor(multipliedMatrix)
+// //console.log(minor)
 
-const transCofactor = matrixOperation.transpose(cofactor)
-console.log(transCofactor)
+// const cofactor = matrixOperation.cofactor(minor)
+// console.log(cofactor)
 
-const adj = matrixOperation.adjoint(multipliedMatrix)
-console.log(adj)
+// const transCofactor = matrixOperation.transpose(cofactor)
+// console.log(transCofactor)
+
+// const adj = matrixOperation.adjoint(multipliedMatrix)
+// console.log(adj)
 
 const u = [
   [2, 3, 4],
   [4, 3, 1],
   [1, 2, 4]
 ]
-
-const dt = matrixOperation.determinant(u)
-const ad = matrixOperation.adjoint(u);
-console.log(ad)
-const inv = matrixOperation.inverse(ad, dt);
-console.log(inv)
-
-console.log()
+const test =  [
+  [5, 31, 19],
+  [31, 221,116],
+  [ 19, 116, 93]
+]
 
 
-// let c: number[][] = []
-
-// const bs = b.length // row
-// const ins = b[0].length // column
-// for (let i = 0; i < ins; i++) {
-//   let a: number[] = []
-//   for (let j = 0; j < bs; j++) {
-//     a.push(b[j][i])
-//   }
-
-//   c.push(a)
-// }
-// console.log(c)
-
-// function getMinorMatrix(matrix: number[][], rowToRemove: number, colToRemove: number): number[][] {
-//   return matrix.filter((_, rowIndex) => rowIndex !== rowToRemove)
-//                .map(row => row.filter((_, colIndex) => colIndex !== colToRemove));
-// }
-
-// // Example matrix
-// const matrix = [
-//   [1, 2, 3],
-//   [4, 5, 6],
-//   [7, 8, 9]
-// ];
-
-// // Get the minor matrix excluding the first row and second column
-// const minorMatrix = getMinorMatrix(matrix, 0, 0);
-
-// // Output the result
-// console.log(minorMatrix);
-
-// function determinant(matrix: number[][]) {
-//   if (matrix.length === 2 && matrix[0].length === 2) {
-//       return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
-//   } else {
-//     let det = 0;
-//     for (let i = 0; i < matrix.length; i++) {        
-//       det += 
-//         matrix[0][i] 
-//         * determinant(getMinorMatrix(matrix, 0, i)) 
-//         * (i % 2 === 0 ? 1 : -1);
-//     }
-//       return det;
-//   }
-// }
-
-// console.log(determinant(matrix))
