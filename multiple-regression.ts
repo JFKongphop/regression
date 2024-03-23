@@ -38,14 +38,20 @@ class MultipleLinearRegression extends MatrixOperation {
 //   ssr += math.pow(y_hat - mean_y, 2)
 //   sse += math.pow(y[i] - y_hat, 2)
   getSSE(): number {
-    let sse = 0;
-    for (let )
-    this.y.reduce((sum, num) => sum += (num[0]), 0)
+    let sse: number = 0;
+    const x1X2: number[][] = x.map((row) => row.slice(1));
+    
+    for (let i = 0; i < this.arraySize; i++) {
+      const yHat = this.getYHat(x1X2[i][0], x1X2[i][1]);
+      sse += Math.pow(this.y[i][0] - yHat, 2);
+    }
+
+    return sse;
   }
 
-  // getSSR(): number {
+  getSSR(): number {
 
-  // }
+  }
 
   // sst = ssr + sse
   // getSST(): number {
@@ -85,3 +91,5 @@ console.log(beta)
 
 const t = x.map((row) => row.slice(1))
 console.log(t)
+
+this.y.reduce((sum, num) => sum += (num[0]), 0)
