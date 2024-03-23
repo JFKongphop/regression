@@ -45,7 +45,7 @@ class MultipleLinearRegression extends MatrixOperation {
   getSSE(): number {
     let sse: number = 0;
     const x1X2: number[][] = this.removeFirstColumn(this.x);
-    
+     
     for (let i = 0; i < this.arraySize; i++) {
       const yHat = this.getYHat(x1X2[i][0], x1X2[i][1]);
       sse += Math.pow(this.y[i][0] - yHat, 2);
@@ -77,6 +77,20 @@ class MultipleLinearRegression extends MatrixOperation {
     const rSquare = this.getSSR() / this.getSST();
     return rSquare;
   }
+
+  getMSR(): number {
+    const betaNumber: number = this.getBeta().length;
+    const msr: number = this.getSSE() / (betaNumber - 1);
+
+    return msr;
+  }
+
+  getMSE(): number {
+    const betaNumber: number = this.getBeta().length;
+    const mse: number = this.getSSE() / (this.arraySize - betaNumber);
+  
+    return mse;
+  }
 }
 
 
@@ -100,6 +114,8 @@ console.log(multipleLinearRegression.getBeta())
 console.log(multipleLinearRegression.getSSR())
 console.log(multipleLinearRegression.getSSE())
 console.log(multipleLinearRegression.getSST())
+console.log(multipleLinearRegression.getRSquare())
+
 
 
 
